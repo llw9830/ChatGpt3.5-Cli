@@ -1,14 +1,15 @@
 <p align='center'>
-  <img src='https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9439deee6fda4cbf869c80488939931c~tplv-k3u1fbpfcp-watermark.image?' alt='CLI ChatBot Power By Gpt3' width='800'/>
+  <img src='https://github.com/llw9830/gpt3.5-chatBot-cli/blob/master/doc/1.png?raw=true' width='800'/>
 </p>
 
 <p align='center'>
-  <img src='https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ee1f8cf9cd6e4b989f51b15ee5da5afb~tplv-k3u1fbpfcp-watermark.image' alt='CLI ChatBot Power By Gpt3' width='800'/>
+  <img src='https://github.com/llw9830/gpt3.5-chatBot-cli/blob/master/doc/2.png?raw=true' width='800'/>
 </p>
 
 <p align='center'>
-    CLI ChatBot Power By <b>Gpt3</b><sup><em>(speed)</em></sup><br>
+    CLI ChatBot Power By <b>Gpt3.5</b><sup><em>(speed)</em></sup><br>
 </p>
+
 
 ## 源项目代码
 
