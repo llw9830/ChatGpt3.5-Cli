@@ -3,49 +3,48 @@ package services
 import (
 	"context"
 	"fmt"
-	"github.com/PullRequestInc/go-gpt3"
 	"log"
+
+	gogpt "github.com/sashabaranov/go-gpt3"
 )
 
-const (
-	maxTokens   = 3000
-	temperature = 0.7
-	engine      = gpt3.TextDavinci003Engine
-)
+var client *gogpt.Client
+var request gogpt.ChatCompletionRequest
 
-var client gpt3.Client
+func InitClient(api, system string) {
+	gptConfig := gogpt.DefaultConfig(api)
+	client = gogpt.NewClientWithConfig(gptConfig)
 
-func InitClient(api string) {
-	client = gpt3.NewClient(api)
+	request.Messages = append(request.Messages, gogpt.ChatCompletionMessage{
+		Role: "system", Content: system,
+	})
+	request.Model = "gpt-3.5-turbo-0301"
 }
-
-var history = []string{}
 
 func GetAnswer(question string) (reply string, ok bool) {
 	fmt.Print("Bot: ")
-	ok = false
-	reply = ""
-	i := 0
+	request.Messages = append(request.Messages, gogpt.ChatCompletionMessage{
+		Role: "user", Content: question,
+	})
 	ctx := context.Background()
-	if err := client.CompletionStreamWithEngine(ctx, engine, gpt3.CompletionRequest{
-		Prompt: []string{
-			question,
-		},
-		MaxTokens:   gpt3.IntPtr(maxTokens),
-		Temperature: gpt3.Float32Ptr(temperature),
-	}, func(resp *gpt3.CompletionResponse) {
-		if i > 1 {
-			fmt.Print(resp.Choices[0].Text)
-			reply += resp.Choices[0].Text
-		}
-		i++
-	}); err != nil {
+	resp, err := client.CreateChatCompletion(ctx, request)
+	if err != nil {
 		log.Fatalln(err)
 	}
+
+	reply = resp.Choices[0].Message.Content
 	if reply != "" {
+		request.Messages = append(request.Messages, gogpt.ChatCompletionMessage{
+			Role: "assistant", Content: reply,
+		})
+
+		for _, v := range reply {
+			fmt.Print(string(v))
+		}
+		fmt.Println()
 		ok = true
 	}
-	fmt.Println()
+
 	return reply, ok
 }
 

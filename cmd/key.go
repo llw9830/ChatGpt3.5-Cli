@@ -1,15 +1,16 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"leizhenpeng/go-gpt3-cli/services"
+
+	"github.com/spf13/cobra"
 )
 
 // keyCmd represents the key command
 var keyCmd = &cobra.Command{
 	Use:   "key",
-	Short: "Manage your api key about gpt3",
-	Long: `Manage your api key about gpt3.
+	Short: "Manage your api key about gpt3.5",
+	Long: `Manage your api key about gpt3.5.
 You can set, list and clear your key.	
 You can get your key from https://beta.openai.com/account/api-keys`,
 
@@ -41,11 +42,35 @@ You can get your key from https://beta.openai.com/account/api-keys`,
 	},
 }
 
+// sysCmd represents the key command
+var sysCmd = &cobra.Command{
+	Use:   "sys",
+	Short: "Set system role",
+	Long: `Set system role
+	Run command : chat sys -s <你是我的私人智能助手>`,
+
+	Run: func(cmd *cobra.Command, args []string) {
+		keyMsg = services.GetKeyMag()
+		if cmd.Flag("set").Value.String() == "true" {
+			if len(args) == 0 {
+				cmd.Help()
+				return
+			}
+			keyMsg.SetKey(system, args[0])
+			cmd.Printf("我将以'%s'身份和你对话\n", args[0])
+		} else {
+			cmd.Help()
+		}
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(keyCmd)
-
 	keyCmd.Flags().BoolP("set", "s", false, "set api key")
 	keyCmd.Flags().BoolP("list", "l", false, " list api key")
 	keyCmd.Flags().BoolP("clear", "c", false, "clear api key")
 	keyCmd.Flags().BoolP("bowser", "b", false, "show bowser to check  key")
+
+	rootCmd.AddCommand(sysCmd)
+	sysCmd.Flags().BoolP("set", "s", false, "Set system role")
 }

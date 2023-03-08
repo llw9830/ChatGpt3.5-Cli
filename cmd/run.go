@@ -16,17 +16,22 @@ type Context struct {
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Run a gp3 chat bot",
+	Short: "Run a gp3.5 chat bot",
 	Run: func(cmd *cobra.Command, args []string) {
 		keyMsg = services.GetKeyMag()
 		key := keyMsg.GetKey(keyName)
 		if key == "" {
 			fmt.Println(`Don't find open-api key, please set your key first.
 Find your key from https://beta.openai.com/account/api-keys.
-Run command : go-chat key -s <your key>`)
+Run command : chat key -s <your key>`)
 			return
 		}
-		services.InitClient(key)
+
+		sysKey := keyMsg.GetKey(system)
+		if sysKey == "" {
+			sysKey = "你是我的私人智能助手"
+		}
+		services.InitClient(key, sysKey)
 		if cmd.Flag("interactive").Value.String() == "true" {
 			InteractiveMode()
 		} else if cmd.Flag("prompt").Value.String() != "" {
@@ -49,7 +54,7 @@ func init() {
 func InteractiveMode() {
 	//services.SetContext(ctx)
 	history := services.NewCacheHistory()
-	fmt.Print("Welcome to the GPT-3 chat bot. \nType 'exit' to quit, Type 'clear' to clear the context. \n")
+	fmt.Print("Welcome to the GPT-3.5 chat bot. \nType 'exit' to quit, Type 'clear' to clear the context. \n")
 	for {
 		question := services.AskUserQuestion()
 		if question == "exit" {

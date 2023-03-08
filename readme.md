@@ -10,115 +10,33 @@
     CLI ChatBot Power By <b>Gpt3</b><sup><em>(speed)</em></sup><br>
 </p>
 
-## 源代码
+## 源项目代码
 
 🏀🏀
 [CLI ChatBot Power By Gin](https://github.com/Leizhenpeng/gpt3-chatBot-cli)
 🏀🏀
 
-## bilibili 在线吹水
-
-⚽️⚽️
-[基于gpt3引擎实现CLI版本的chatgpt~](https://www.bilibili.com/video/BV1ae4y1N7W2)
-⚽️⚽️
-
 ## Features
 
-- 🐤 Gpt3 ChatBot
+- 🐤 Gpt3.5 ChatBot
 - 🍉 Store Keyring
 - 🥑 Cobra CLI
 
 ## development
 
 ```bash
-make build
+go build
+
+或者下载.exe文件直接运行
 ```
 
 ```bash
-go-chat key set <your-key>
-go-chat run
-```
-
-## Snapshot
-
-- 记录上下文，实现连续对话
-
-<p align='center'>
-  <img src='https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbda7ad297204aaebe8f47da89768876~tplv-k3u1fbpfcp-watermark.image' alt='CLI ChatBot Power By Gpt3' width='400'/>
-</p>
-
-``` go
-func NewCacheHistory() CacheHistoryInterface {
-   return &CacheHistory{
-      db: cache.New(time.Second*60, time.Minute*10),
-   }
-}
-
-func (c CacheHistory) SetQACache(q string, a string) {
-   saveValue := q + "\n" + a
-   c.set(userSessionContextKey, saveValue)
-}
-
-func (c CacheHistory) GetQACache() (string, bool) {
-   res, ok := c.get(userSessionContextKey)
-   if !ok {
-      return "", false
-   }
-   return res.(string), true
-}
-
-func (c CacheHistory) ClearQACache() {
-   c.clear()
-}
-```
-
-- 封装调用gpt3接口
-
-``` go
-func GetAnswer(question string) {
-  
-   fmt.Print("Answer: ")
-   i := 0
-   ctx := context.Background()
- 
-   if err := client.CompletionStreamWithEngine(ctx, engine, gpt3.CompletionRequest{
-      Prompt: []string{
-         question,
-      },
-      MaxTokens:   gpt3.IntPtr(maxTokens),
-      Temperature: gpt3.Float32Ptr(temperature),
-   }, func(resp *gpt3.CompletionResponse) {
-      if i > 1 {
-         fmt.Print(resp.Choices[0].Text)
-      }
-      i++
-   }); err != nil {
-      log.Fatalln(err)
-   }
-   fmt.Println()
-}
-```
-
-- cobra项目结构
-
-```
-├── LICENSE
-├── Makefile
-├── cmd
-│   ├── key.go
-│   ├── root.go
-│   └── run.go
-├── go-chat
-├── go.mod
-├── go.sum
-├── main.go
-├── readme.md
-└── services
-    ├── browse.go
-    ├── cli.go
-    ├── gpt.go
-    └── key.go
-    
+-- 1、设置apiKey
+go-gpt3-cli.exe key set <apiKey>
+-- 2、设置对话角色
+go-gpt3-cli.exe sys set <以私人智能助手身份和我说话>
+-- 3、运行
+go-gpt3-cli.exe run
 ```
 
 ## More Info
