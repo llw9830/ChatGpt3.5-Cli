@@ -11,7 +11,7 @@
 </p>
 
 
-## 源项目代码
+## 原项目代码
 
 🏀🏀
 [CLI ChatBot Power By Gin](https://github.com/Leizhenpeng/gpt3-chatBot-cli)
@@ -48,4 +48,4 @@ go-gpt3-cli.exe run
 
 - [golang常见库cobra](https://segmentfault.com/a/1190000023382214)
 
-- [chatGpt3](https://github.com/PullRequestInc/go-gpt3)
+- [chatGpt3](https://github.com/sashabaranov/go-openai)
